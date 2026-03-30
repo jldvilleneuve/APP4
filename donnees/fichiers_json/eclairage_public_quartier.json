@@ -1,0 +1,21 @@
+{
+  "circuit": {
+    "type": "parallele",
+    "composants": [
+      {
+        "type": "serie",
+        "composants": [
+          { "type": "resistance", "valeur": 1100 },
+          { "type": "resistance", "valeur": 1500 }
+        ]
+      },
+      {
+        "type": "serie",
+        "composants": [
+          { "type": "resistance", "valeur": 2000 },
+          { "type": "resistance", "valeur": 4750 }
+        ]
+      }
+    ]
+  }
+}
