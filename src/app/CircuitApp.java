@@ -104,7 +104,7 @@ public class CircuitApp {
         } else if (args.length == 1) {
             dirPath = args[0];
         } else {
-            dirPath = askString("Veuillez spécifier le chemin vers le dossier contenant les circuits.");
+            dirPath = askString("Veuillez spécifier le chemin vers le dossier contenant les circuits. La recherche est récursive dans les sous dossiers.");
         }
 
         return dirPath;
