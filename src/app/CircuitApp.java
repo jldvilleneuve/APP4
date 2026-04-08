@@ -15,7 +15,14 @@ public class CircuitApp {
         System.out.println("Calculatrice de résistance d'un circuit électrique par Justin Villeneuve");
         System.out.println("Dossier actuel: " + Path.of("").toAbsolutePath().toString());
 
-        ArrayList<ParsedCircuit> circuits = fetchAllCircuits(args);
+        ArrayList<ParsedCircuit> circuits = null;
+        while (circuits == null) {
+            try {
+                circuits = fetchAllCircuits(args);
+            } catch (IOException e) {
+            }
+        }
+
         while (cliCommand(circuits));
     }
 
@@ -54,7 +61,9 @@ public class CircuitApp {
     }
 
     // Lit et "parse" tous les circuits dans le dossier.
-    private static ArrayList<ParsedCircuit> fetchAllCircuits(String[] args) {
+    private static ArrayList<ParsedCircuit> fetchAllCircuits(String[] args)
+        throws IOException
+    {
         String dirPath = fetchDirPath(args);
         ArrayList<ParsedCircuit> circuits = new ArrayList<>();
         try {
@@ -68,9 +77,10 @@ public class CircuitApp {
             }
 
         } catch (IOException e) {
-            System.err.println("Le chemin spécifié n'a pas plus être trouvé, ou contient des fichiers en utilisation.\n" +
+            System.out.println("Le chemin spécifié n'a pas plus être trouvé, ou contient des fichiers en utilisation.\n" +
                     "Chemin absolu: '" + Path.of(dirPath).toAbsolutePath().toString() + "'.\n" +
                     "Exception: " + e.getMessage());
+            throw e;
         }
 
         return circuits;
@@ -82,7 +92,7 @@ public class CircuitApp {
     private static String fetchDirPath(String[] args) {
         String dirPath;
         if (args.length > 1) {
-            System.err.println(
+            System.out.println(
                     "Veuillez spécifier un seul argument." +
                             "Si vous souhaitez spécifier un chemin contenant des espaces, " +
                             "utilisez des guillemets: \"<chemin vers le dossier>\"."
@@ -102,13 +112,18 @@ public class CircuitApp {
 
     // Enumère les fichiers dans un dossier, de façon récursive à travers les dossiers. Cherche
     // pour tous les fichiers finissant avec une extension spécifique.
-    private static ArrayList<Path> enumerateDirectory(String dirPath, String expectedFileExt)
+    private static ArrayList<Path> enumerateDirectory(String dirPathStr, String expectedFileExt)
         throws IOException
     {
         ArrayList<Path> allFiles = new ArrayList<>();
+        Path dirPath = Path.of(dirPathStr);
+
+        if (!Files.exists(dirPath)) {
+            throw new IOException("directory not found");
+        }
 
         try (Stream<Path> pathStream =
-                     Files.walk(Path.of(dirPath)).filter(path -> path.toString().endsWith(expectedFileExt)))
+                     Files.walk(dirPath).filter(path -> path.toString().endsWith(expectedFileExt)))
         {
             pathStream.forEach(allFiles::add);
         }
