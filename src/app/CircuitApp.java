@@ -134,7 +134,7 @@ public class CircuitApp {
     // Demande à l'utilisateur de choisir une valeur parmi plusieurs options, en forme de Strings.
     private static int askSelectFromOptions(String question, String[] options) {
         OptionalInt selected = OptionalInt.empty();
-        while (selected.isEmpty() || selected.getAsInt() > options.length) {
+        while (selected.isEmpty()) {
             System.out.println();
             for (int i = 0; i < options.length; i++) {
                 System.out.printf("[%d]: %s\n", (i + 1), options[i]);
