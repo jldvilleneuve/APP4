@@ -32,7 +32,7 @@ public class CircuitApp {
         String[] options = getCircuitOptions(circuits);
 
         int chosenComposantIndex = askSelectFromOptions(
-                "Choisissez le circuit dont vous souhaitez calculer la résistance parmis ces options en inscrivant l'index numérique.",
+                "Choisissez le circuit dont vous souhaitez calculer la résistance parmi ces options en inscrivant l'index numérique.",
                 options
         );
 
@@ -104,7 +104,7 @@ public class CircuitApp {
         } else if (args.length == 1) {
             dirPath = args[0];
         } else {
-            dirPath = askString("Veuillez spécifier le chemin vers le dossier contenant les circuits. La recherche est récursive dans les sous dossiers.");
+            dirPath = askString("Veuillez spécifier le chemin vers le dossier contenant les circuits.");
         }
 
         return dirPath;
@@ -166,7 +166,7 @@ public class CircuitApp {
                 System.out.printf("[%c]: %s\n", Character.toUpperCase(option.charAt(0)), option);
             }
 
-            Optional<Character> selectedCharBoxed = askCharCaseInsensitive("Pick an option.");
+            Optional<Character> selectedCharBoxed = askCharCaseInsensitive("Choisissez une option parmi les options suivantes:");
             if (selectedCharBoxed.isEmpty()) {
                 continue;
             }
